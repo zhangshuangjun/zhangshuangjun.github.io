@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Windbg,内核调试," />
 
 
 
@@ -84,15 +84,19 @@
 
 
 
-<meta name="description" content="天下有大勇者，卒然临之而不惊。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Sven's Home">
-<meta property="og:url" content="http://www.xn--vz0au16b.com/index.html">
+<meta name="description" content="使用Vmware搭建双机调试环境这里不再赘述，Google一下，有非常的多的教程。同时设置好Symbol Path。
+调试详解加载nt模块的符号表这里的nt模块，并不是ntdll.dll，而是window的真实的内核模块。根据操作系统的不同，它可能是ntkrnlpa.exe,ntoskrnl.exe,ntkrnlmp.exe,ntkrpamp.exe。为了能够调试代码，我们必须要先加载这个模块的符">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一次系统卡死的调试">
+<meta property="og:url" content="http://www.xn--vz0au16b.com/blog/2016/06/debug-system-huang.html">
 <meta property="og:site_name" content="Sven's Home">
-<meta property="og:description" content="天下有大勇者，卒然临之而不惊。">
+<meta property="og:description" content="使用Vmware搭建双机调试环境这里不再赘述，Google一下，有非常的多的教程。同时设置好Symbol Path。
+调试详解加载nt模块的符号表这里的nt模块，并不是ntdll.dll，而是window的真实的内核模块。根据操作系统的不同，它可能是ntkrnlpa.exe,ntoskrnl.exe,ntkrnlmp.exe,ntkrpamp.exe。为了能够调试代码，我们必须要先加载这个模块的符">
+<meta property="og:updated_time" content="2016-06-05T11:23:36.909Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sven's Home">
-<meta name="twitter:description" content="天下有大勇者，卒然临之而不惊。">
+<meta name="twitter:title" content="记录一次系统卡死的调试">
+<meta name="twitter:description" content="使用Vmware搭建双机调试环境这里不再赘述，Google一下，有非常的多的教程。同时设置好Symbol Path。
+调试详解加载nt模块的符号表这里的nt模块，并不是ntdll.dll，而是window的真实的内核模块。根据操作系统的不同，它可能是ntkrnlpa.exe,ntoskrnl.exe,ntkrnlmp.exe,ntkrpamp.exe。为了能够调试代码，我们必须要先加载这个模块的符">
 
 
 
@@ -110,7 +114,7 @@
   };
 </script>
 
-  <title> Sven's Home </title>
+  <title> 记录一次系统卡死的调试 | Sven's Home </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -131,9 +135,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -220,9 +222,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -242,10 +244,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/blog/2016/06/debug-system-huang.html" itemprop="url">
-                  记录一次系统卡死的调试
-                </a>
+                记录一次系统卡死的调试
               
             
           </h1>
@@ -311,9 +310,7 @@
       
 
       
-        
-          
-            <h2 id="使用Vmware搭建双机调试环境"><a href="#使用Vmware搭建双机调试环境" class="headerlink" title="使用Vmware搭建双机调试环境"></a>使用Vmware搭建双机调试环境</h2><p>这里不再赘述，Google一下，有非常的多的教程。同时设置好Symbol Path。</p>
+        <h2 id="使用Vmware搭建双机调试环境"><a href="#使用Vmware搭建双机调试环境" class="headerlink" title="使用Vmware搭建双机调试环境"></a>使用Vmware搭建双机调试环境</h2><p>这里不再赘述，Google一下，有非常的多的教程。同时设置好Symbol Path。</p>
 <h2 id="调试详解"><a href="#调试详解" class="headerlink" title="调试详解"></a>调试详解</h2><h3 id="加载nt模块的符号表"><a href="#加载nt模块的符号表" class="headerlink" title="加载nt模块的符号表"></a>加载nt模块的符号表</h3><p>这里的nt模块，并不是ntdll.dll，而是window的真实的内核模块。根据操作系统的不同，它可能是ntkrnlpa.exe,ntoskrnl.exe,ntkrnlmp.exe,ntkrpamp.exe。为了能够调试代码，我们必须要先加载这个模块的符号表。<br>命令行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; .reload /<span class="keyword">if</span> nt</span><br><span class="line">kd&gt; g</span><br><span class="line">Break instruction exception - code 80000003 (first chance)</span><br><span class="line">*******************************************************************************</span><br><span class="line">*                                                                             *</span><br><span class="line">*   You are seeing this message because you pressed either                    *</span><br><span class="line">*       CTRL+C (<span class="keyword">if</span> you run kd.exe) or,                                        *</span><br><span class="line">*       CTRL+BREAK (<span class="keyword">if</span> you run W<span class="keyword">in</span>DBG),                                       *</span><br><span class="line">*   on your debugger machine<span class="string">'s keyboard.                                      *</span><br><span class="line">*                                                                             *</span><br><span class="line">*                   THIS IS NOT A BUG OR A SYSTEM CRASH                       *</span><br><span class="line">*                                                                             *</span><br><span class="line">* If you did not intend to break into the debugger, press the "g" key, then   *</span><br><span class="line">* press the "Enter" key now.  This message might immediately reappear.  If it *</span><br><span class="line">* does, press "g" and "Enter" again.                                          *</span><br><span class="line">*                                                                             *</span><br><span class="line">*******************************************************************************</span><br><span class="line">nt!RtlpBreakWithStatusInstruction:</span><br><span class="line">83eb2110 cc              int     3</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="显示正在运行的进程"><a href="#显示正在运行的进程" class="headerlink" title="显示正在运行的进程"></a>显示正在运行的进程</h3><p>可以看到，当前运行了很多个LoaderLockExe.exe，这个是我们的测试程序。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br></pre></td><td class="code"><pre><span class="line">kd&gt; !process 0 0</span><br><span class="line">**** NT ACTIVE PROCESS DUMP ****</span><br><span class="line">PROCESS 8634b820  SessionId: none  Cid: 0004    Peb: 00000000  ParentCid: 0000</span><br><span class="line">    DirBase: 00185000  ObjectTable: 89e01b28  HandleCount: 551.</span><br><span class="line">    Image: System</span><br><span class="line"></span><br><span class="line">PROCESS 86f0c1e0  SessionId: none  Cid: 00<span class="built_in">fc</span>    Peb: 7ffdf000  ParentCid: 0004</span><br><span class="line">    DirBase: 3f33b020  ObjectTable: 8c4cac68  HandleCount:  29.</span><br><span class="line">    Image: smss.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8769a718  SessionId: 0  Cid: 0150    Peb: 7ffd5000  ParentCid: 013c</span><br><span class="line">    DirBase: 3f33b060  ObjectTable: 99606e40  HandleCount: 582.</span><br><span class="line">    Image: csrss.exe</span><br><span class="line"></span><br><span class="line">PROCESS 876f9530  SessionId: 1  Cid: 0184    Peb: 7ffdf000  ParentCid: 017c</span><br><span class="line">    DirBase: 3f33b0a0  ObjectTable: 8a01f9c0  HandleCount: 473.</span><br><span class="line">    Image: csrss.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87703530  SessionId: 0  Cid: 018c    Peb: 7ffdd000  ParentCid: 013c</span><br><span class="line">    DirBase: 3f33b0c0  ObjectTable: 8a034638  HandleCount:  79.</span><br><span class="line">    Image: wininit.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87718530  SessionId: 1  Cid: 01b0    Peb: 7ffd9000  ParentCid: 017c</span><br><span class="line">    DirBase: 3f33b040  ObjectTable: 8a045e30  HandleCount: 110.</span><br><span class="line">    Image: winlogon.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8807f518  SessionId: 0  Cid: 01<span class="built_in">fc</span>    Peb: 7ffdb000  ParentCid: 018c</span><br><span class="line">    DirBase: 3f33b080  ObjectTable: 8a127008  HandleCount: 259.</span><br><span class="line">    Image: services.exe</span><br><span class="line"></span><br><span class="line">PROCESS 880808d0  SessionId: 0  Cid: 0204    Peb: 7ffdf000  ParentCid: 018c</span><br><span class="line">    DirBase: 3f33b0e0  ObjectTable: 8a127150  HandleCount:  41.</span><br><span class="line">    Image: HutiehuaApp.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88087428  SessionId: 0  Cid: 0210    Peb: 7ffdf000  ParentCid: 018c</span><br><span class="line">    DirBase: 3f33b100  ObjectTable: 8a139bb8  HandleCount: 564.</span><br><span class="line">    Image: lsass.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8808ad40  SessionId: 0  Cid: 0218    Peb: 7ffd3000  ParentCid: 0150</span><br><span class="line">    DirBase: 3f33b120  ObjectTable: 8a126de0  HandleCount:  58.</span><br><span class="line">    Image: conhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8808b218  SessionId: 0  Cid: 0220    Peb: 7ffdc000  ParentCid: 018c</span><br><span class="line">    DirBase: 3f33b140  ObjectTable: 8a146060  HandleCount: 151.</span><br><span class="line">    Image: lsm.exe</span><br><span class="line"></span><br><span class="line">PROCESS 880c2638  SessionId: 0  Cid: 0280    Peb: 7ffd9000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b160  ObjectTable: 8a1e6008  HandleCount: 359.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 880e2d40  SessionId: 0  Cid: 02d4    Peb: 7ffd7000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b180  ObjectTable: 8a1cf7f0  HandleCount: 282.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 869f1030  SessionId: 0  Cid: 0350    Peb: 7ffd8000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b1c0  ObjectTable: 8aeeaa18  HandleCount: 479.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 86d52420  SessionId: 0  Cid: 0374    Peb: 7ffdc000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b1e0  ObjectTable: 8aee1e70  HandleCount: 431.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8813d030  SessionId: 0  Cid: 038c    Peb: 7ffda000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b200  ObjectTable: 8a1a49c8  HandleCount: 1069.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8816c570  SessionId: 0  Cid: 03e4    Peb: 7ffda000  ParentCid: 0350</span><br><span class="line">    DirBase: 3f33b220  ObjectTable: 8af89188  HandleCount: 111.</span><br><span class="line">    Image: audiodg.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88188030  SessionId: 0  Cid: 0430    Peb: 7ffd5000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b240  ObjectTable: 8a189e20  HandleCount: 527.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 881a7030  SessionId: 0  Cid: 04a4    Peb: 7ffde000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b260  ObjectTable: 8be264d0  HandleCount: 355.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87751030  SessionId: 0  Cid: 0554    Peb: 7ffd3000  ParentCid: 04e8</span><br><span class="line">    DirBase: 3f33b2c0  ObjectTable: 8be16b48  HandleCount:  96.</span><br><span class="line">    Image: LvaNac.exe</span><br><span class="line"></span><br><span class="line">PROCESS 876c1030  SessionId: 0  Cid: 055c    Peb: 7ffdf000  ParentCid: 0150</span><br><span class="line">    DirBase: 3f33b2e0  ObjectTable: 8be33ab8  HandleCount:  58.</span><br><span class="line">    Image: conhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 876e2d40  SessionId: 1  Cid: 05cc    Peb: 7ffdf000  ParentCid: 0374</span><br><span class="line">    DirBase: 3f33b380  ObjectTable: 8de3ffc0  HandleCount: 157.</span><br><span class="line">    Image: dwm.exe</span><br><span class="line"></span><br><span class="line">PROCESS 876e49b8  SessionId: 1  Cid: 05e4    Peb: 7ffdc000  ParentCid: 05bc</span><br><span class="line">    DirBase: 3f33b3a0  ObjectTable: 8be11398  HandleCount: 877.</span><br><span class="line">    Image: explorer.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87722d40  SessionId: 0  Cid: 0600    Peb: 7ffdf000  ParentCid: 038c</span><br><span class="line">    DirBase: 3f33b3c0  ObjectTable: 8dec8c30  HandleCount:  86.</span><br><span class="line">    Image: taskeng.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87723a90  SessionId: 0  Cid: 0608    Peb: 7ffd9000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b3e0  ObjectTable: 8de6ffc0  HandleCount: 341.</span><br><span class="line">    Image: spoolsv.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87756a58  SessionId: 0  Cid: 0674    Peb: 7ffd5000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b420  ObjectTable: 8dee7870  HandleCount: 193.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87763a58  SessionId: 0  Cid: 0698    Peb: 7ffda000  ParentCid: 0600</span><br><span class="line">    DirBase: 3f33b440  ObjectTable: 8deec810  HandleCount: 8297.</span><br><span class="line">    Image: OEM8.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8775<span class="built_in">cd</span>40  SessionId: 0  Cid: 06c4    Peb: 7ffda000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b400  ObjectTable: 8df00b78  HandleCount: 313.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88166958  SessionId: 1  Cid: 06dc    Peb: 7ffdb000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b460  ObjectTable: 8de403b0  HandleCount: 212.</span><br><span class="line">    Image: taskhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 882795e8  SessionId: 0  Cid: 0774    Peb: 7ffd7000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b4a0  ObjectTable: 8dfc2b48  HandleCount:  64.</span><br><span class="line">    Image: srvany.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88277790  SessionId: 1  Cid: 077c    Peb: 7ffd6000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b480  ObjectTable: 8dfbb048  HandleCount: 116.</span><br><span class="line">    Image: GetCorbicula.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8828<span class="built_in">cd</span>40  SessionId: 1  Cid: 0790    Peb: 7ffdb000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b4c0  ObjectTable: 8dfc5968  HandleCount:  65.</span><br><span class="line">    Image: Tinaiat.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88291030  SessionId: 0  Cid: 07a4    Peb: 7ffd9000  ParentCid: 0774</span><br><span class="line">    DirBase: 3f33b4e0  ObjectTable: 00000000  HandleCount:   0.</span><br><span class="line">    Image: HEU_KMS_Renewal.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8829f030  SessionId: 1  Cid: 07b0    Peb: 7ffd6000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b500  ObjectTable: 8dfe4618  HandleCount: 113.</span><br><span class="line">    Image: UaaClient.exe</span><br><span class="line"></span><br><span class="line">PROCESS 8828b310  SessionId: 0  Cid: 07e8    Peb: 7ffd4000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b2a0  ObjectTable: 8dfbc610  HandleCount: 293.</span><br><span class="line">    Image: vmtoolsd.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88308c30  SessionId: 1  Cid: 0214    Peb: 7ffd4000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b520  ObjectTable: 95ea7e80  HandleCount: 196.</span><br><span class="line">    Image: vmtoolsd.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87758030  SessionId: 1  Cid: 06d8    Peb: 7ffd8000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b300  ObjectTable: 95ed4140  HandleCount: 155.</span><br><span class="line">    Image: GEUU20203.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87d553c0  SessionId: 0  Cid: 0834    Peb: 7ffdf000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b280  ObjectTable: 96c52cb8  HandleCount: 149.</span><br><span class="line">    Image: TPAutoConnSvc.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e2ad40  SessionId: 0  Cid: 09a0    Peb: 7ffda000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b680  ObjectTable: 96c03448  HandleCount: 101.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88098030  SessionId: 1  Cid: 09c4    Peb: 7ffdd000  ParentCid: 094c</span><br><span class="line">    DirBase: 3f33b6c0  ObjectTable: 8be64c88  HandleCount: 639.</span><br><span class="line">    Image: UniAccessAgent.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e1ab88  SessionId: 0  Cid: 09ec    Peb: 7ffd6000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b6e0  ObjectTable: 96c8a0a0  HandleCount: 596.</span><br><span class="line">    Image: SearchIndexer.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e63470  SessionId: 1  Cid: 0a74    Peb: 7ffd4000  ParentCid: 0834</span><br><span class="line">    DirBase: 3f33b320  ObjectTable: 967b57b8  HandleCount: 126.</span><br><span class="line">    Image: TPAutoConnect.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e75110  SessionId: 1  Cid: 0aa4    Peb: 7ffd4000  ParentCid: 0184</span><br><span class="line">    DirBase: 3f33b600  ObjectTable: 96c03ef0  HandleCount:  59.</span><br><span class="line">    Image: conhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e078b8  SessionId: 0  Cid: 0b40    Peb: 7ffdf000  ParentCid: 0280</span><br><span class="line">    DirBase: 3f33b6a0  ObjectTable: 927728b0  HandleCount: 206.</span><br><span class="line">    Image: WmiPrvSE.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87df54e0  SessionId: 0  Cid: 0b90    Peb: 7ffdc000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b5e0  ObjectTable: 9666e740  HandleCount: 202.</span><br><span class="line">    Image: dllhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 869a4d40  SessionId: 0  Cid: 0c10    Peb: 7ffde000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b660  ObjectTable: 963f2508  HandleCount: 229.</span><br><span class="line">    Image: dllhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87eeed40  SessionId: 1  Cid: 0c84    Peb: 7ffdf000  ParentCid: 09c4</span><br><span class="line">    DirBase: 3f33b580  ObjectTable: 8be08cb8  HandleCount:  83.</span><br><span class="line">    Image: AntiMHT.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87ef5d40  SessionId: 0  Cid: 0ca4    Peb: 7ffdd000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b700  ObjectTable: 963d85b0  HandleCount: 201.</span><br><span class="line">    Image: wmpnetwk.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87edcd40  SessionId: 1  Cid: 0cf0    Peb: 7ffde000  ParentCid: 0184</span><br><span class="line">    DirBase: 3f33b340  ObjectTable: 96ca7d40  HandleCount:  69.</span><br><span class="line">    Image: conhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 869eb460  SessionId: 0  Cid: 0db0    Peb: 7ffd8000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b1a0  ObjectTable: 963e8988  HandleCount: 177.</span><br><span class="line">    Image: msdtc.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87f70d40  SessionId: 1  Cid: 0de8    Peb: 7ffd6000  ParentCid: 09ec</span><br><span class="line">    DirBase: 3f33b720  ObjectTable: 96396880  HandleCount: 272.</span><br><span class="line">    Image: SearchProtocolHost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87f715e8  SessionId: 0  Cid: 0e68    Peb: 7ffde000  ParentCid: 09ec</span><br><span class="line">    DirBase: 3f33b5c0  ObjectTable: 96d187c8  HandleCount:  78.</span><br><span class="line">    Image: SearchFilterHost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 880265b0  SessionId: 0  Cid: 0aec    Peb: 7ffdd000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b5a0  ObjectTable: 99281a80  HandleCount: 114.</span><br><span class="line">    Image: VSSVC.exe</span><br><span class="line"></span><br><span class="line">PROCESS 86fed030  SessionId: 0  Cid: 0f50    Peb: 7ffd3000  ParentCid: 0280</span><br><span class="line">    DirBase: 3f33b740  ObjectTable: 00000000  HandleCount:   0.</span><br><span class="line">    Image: WmiPrvSE.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88196a20  SessionId: 0  Cid: 08f4    Peb: 7ffd7000  ParentCid: 0280</span><br><span class="line">    DirBase: 3f33b860  ObjectTable: 992655e8  HandleCount: 117.</span><br><span class="line">    Image: WmiPrvSE.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87ddb060  SessionId: 1  Cid: 0104    Peb: 7ffdf000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b760  ObjectTable: 95ed5e78  HandleCount:  65.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87d6c030  SessionId: 1  Cid: 0784    Peb: 7ffd5000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b780  ObjectTable: 8dff00d8  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 869d1d40  SessionId: 1  Cid: 0584    Peb: 7ffd5000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b620  ObjectTable: 8c5c0c40  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e0e6d0  SessionId: 1  Cid: 0920    Peb: 7ffd6000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b820  ObjectTable: 8c5b7620  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87dce440  SessionId: 1  Cid: 0d04    Peb: 7ffde000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b7a0  ObjectTable: 9de4f1f8  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e65030  SessionId: 1  Cid: 0a10    Peb: 7ffdf000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b640  ObjectTable: 96d37<span class="built_in">fc</span>0  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87712030  SessionId: 1  Cid: 09d4    Peb: 7ffd9000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b560  ObjectTable: 8be34630  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e12938  SessionId: 1  Cid: 054c    Peb: 7ffdf000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b360  ObjectTable: 9ded1a60  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87d7e548  SessionId: 1  Cid: 0e74    Peb: 7ffdd000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b840  ObjectTable: 99282b18  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87d86030  SessionId: 0  Cid: 04d4    Peb: 7ffd4000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b800  ObjectTable: 9deba608  HandleCount: 166.</span><br><span class="line">    Image: sppsvc.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87d8d030  SessionId: 1  Cid: 0c5c    Peb: 7ffdb000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b880  ObjectTable: 9de92190  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87cda9d0  SessionId: 1  Cid: 09dc    Peb: 7ffd8000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b540  ObjectTable: 8c5cb560  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e0e9d8  SessionId: 1  Cid: 0694    Peb: 7ffd3000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b7c0  ObjectTable: 9de840a0  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87e7b1f8  SessionId: 1  Cid: 05c0    Peb: 7ffdc000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b7e0  ObjectTable: 8c5afd08  HandleCount:  64.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 86ff74f8  SessionId: 1  Cid: 09a8    Peb: 7ffd9000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b8e0  ObjectTable: 9df1b430  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87ebe030  SessionId: 1  Cid: 07d0    Peb: 7ffd4000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b8a0  ObjectTable: 9df67540  HandleCount:  64.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87f57930  SessionId: 1  Cid: 0ce4    Peb: 7ffdd000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b8c0  ObjectTable: 8c5c2590  HandleCount:  63.</span><br><span class="line">    Image: LoaderLockExe.exe</span><br><span class="line"></span><br><span class="line">PROCESS 868894a8  SessionId: 0  Cid: 04f4    Peb: 7ffdf000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b900  ObjectTable: 9de25bb8  HandleCount: 447.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88400030  SessionId: 1  Cid: 0e24    Peb: 7ffd7000  ParentCid: 05e4</span><br><span class="line">    DirBase: 3f33b960  ObjectTable: 96615ec0  HandleCount: 113.</span><br><span class="line">    Image: Poria.exe</span><br><span class="line"></span><br><span class="line">PROCESS 881e2850  SessionId: 1  Cid: 05c4    Peb: 7ffdf000  ParentCid: 09c4</span><br><span class="line">    DirBase: 3f33b940  ObjectTable: a4732<span class="built_in">cd</span>0  HandleCount:   3.</span><br><span class="line">    Image: UAAExt.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88447030  SessionId: 0  Cid: 0650    Peb: 7ffd9000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b980  ObjectTable: 927ee520  HandleCount:  41.</span><br><span class="line">    Image: svchost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87df18d8  SessionId: 0  Cid: 07d4    Peb: 7ffdd000  ParentCid: 01<span class="built_in">fc</span></span><br><span class="line">    DirBase: 3f33b920  ObjectTable: 9df21428  HandleCount:   0.</span><br><span class="line">    Image: taskhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 87f085c8  SessionId: 1  Cid: 04f0    Peb: 7ffdd000  ParentCid: 0e24</span><br><span class="line">    DirBase: 3f33b9a0  ObjectTable: 8c5b5b20  HandleCount:   0.</span><br><span class="line">    Image: SetGlobalVar.exe</span><br><span class="line"></span><br><span class="line">PROCESS 868f4740  SessionId: 1  Cid: 0fb8    Peb: 7ffd3000  ParentCid: 0184</span><br><span class="line">    DirBase: 3f33b9c0  ObjectTable: aaf43118  HandleCount:   0.</span><br><span class="line">    Image: conhost.exe</span><br><span class="line"></span><br><span class="line">PROCESS 88415030  SessionId: 1  Cid: 0868    Peb: 7ffdd000  ParentCid: 09c4</span><br><span class="line">    DirBase: 3f33b9e0  ObjectTable: 963d5e38  HandleCount:   0.</span><br><span class="line">    Image: UAAExt.exe</span><br></pre></td></tr></table></figure>
@@ -613,175 +610,60 @@ Object: 880ee7d8  Type: (863d6898) Mutant
 </code></pre>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可以看到，线程88178b58在占有了”HDbgViewShareMem20101119Mutex_V3”这个Mutex后，去请求LdrpLoaderLock。而线程87d42030在获取了LdrpLoaderLock，又去请求”HDbgViewShareMem20101119Mutex_V3”。两个线程相互等待，进程死锁。很明显，是这个输出日志的锁设定得有点问题，修改代码Fix掉这个Bug。</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2016/06/全世界最漂亮的女孩子.html" itemprop="url">
-                  全世界最漂亮的女孩子
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-04T18:12:10+08:00" content="2016-06-04">
-              2016-06-04
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/家庭/" itemprop="url" rel="index">
-                    <span itemprop="name">家庭</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
+            <a href="/tags/Windbg/" rel="tag">#Windbg</a>
           
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2016/06/全世界最漂亮的女孩子.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2016/06/全世界最漂亮的女孩子.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/内核调试/" rel="tag">#内核调试</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
+      
 
       
-      
-        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-          
-          
-            <div class="post-gallery-row">
-              <a class="post-gallery-img fancybox"
-                 href="https://raw.githubusercontent.com/zhangshuangjun/zhangshuangjun.github.io/master/images2/beautiful/full.jpg" rel="gallery_cip2g0e4u0000eohv2ilgxl9d"
-                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="https://raw.githubusercontent.com/zhangshuangjun/zhangshuangjun.github.io/master/images2/beautiful/full.jpg" itemprop="contentUrl"/>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/06/全世界最漂亮的女孩子.html" rel="next" title="全世界最漂亮的女孩子">
+                <i class="fa fa-chevron-left"></i> 全世界最漂亮的女孩子
               </a>
             
-          
+          </div>
 
-          
+          <div class="post-nav-prev post-nav-item">
+            
           </div>
         </div>
       
 
       
-        
-          
-            <p>有人的地方就有江湖，有女人的江湖就不会寂寞。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::wcout &lt;&lt; L<span class="string">"天下有大勇者，卒然临之而不惊，无故加之而不怒。"</span> &lt;&lt; std::endl;</span><br></pre></td></tr></table></figure>
-<p>国际惯例，开博感言拍自己老婆的马屁。</p>
-<p>打算在这里记录一些生活的琐事，分享一些技术的文章和代码。等到胡子花白的时候，讲给我曾孙听。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -789,6 +671,14 @@ Object: 880ee7d8  Type: (863d6898) Mutant
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2016/06/debug-system-huang.html"
+           data-title="记录一次系统卡死的调试" data-url="http://www.xn--vz0au16b.com/blog/2016/06/debug-system-huang.html">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -808,8 +698,17 @@ Object: 880ee7d8  Type: (863d6898) Mutant
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -859,6 +758,17 @@ Object: 880ee7d8  Type: (863d6898) Mutant
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Vmware搭建双机调试环境"><span class="nav-number">1.</span> <span class="nav-text">使用Vmware搭建双机调试环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试详解"><span class="nav-number">2.</span> <span class="nav-text">调试详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#加载nt模块的符号表"><span class="nav-number">2.1.</span> <span class="nav-text">加载nt模块的符号表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示正在运行的进程"><span class="nav-number">2.2.</span> <span class="nav-text">显示正在运行的进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附加到任意一个异常进程"><span class="nav-number">2.3.</span> <span class="nav-text">附加到任意一个异常进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看异常的线程信息"><span class="nav-number">2.4.</span> <span class="nav-text">查看异常的线程信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切换调试上下文件到异常进程"><span class="nav-number">2.5.</span> <span class="nav-text">切换调试上下文件到异常进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载应用层符号表，显示异常进程的信息"><span class="nav-number">2.6.</span> <span class="nav-text">加载应用层符号表，显示异常进程的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看当前处于锁定状态的Critical-Section信息"><span class="nav-number">2.7.</span> <span class="nav-text">查看当前处于锁定状态的Critical Section信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看线程的简略信息"><span class="nav-number">2.8.</span> <span class="nav-text">查看线程的简略信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看异常线程栈信息"><span class="nav-number">2.9.</span> <span class="nav-text">查看异常线程栈信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看异常的句柄信息"><span class="nav-number">2.10.</span> <span class="nav-text">查看异常的句柄信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -955,6 +865,10 @@ Object: 880ee7d8  Type: (863d6898) Mutant
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
